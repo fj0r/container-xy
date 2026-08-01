@@ -716,6 +716,9 @@ stacks:
       - linfa
       - burn
       - plotlars
+    storage:
+      - slatedb
+      - fjall
     concurrency:
       - rayon
       - crossbeam
