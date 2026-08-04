@@ -1,5 +1,5 @@
 [assets.image]
-repo = "ghcr.io/orbsh"
+repo = "ghcr.lizzie.fun/orbsh"
 dest = '~/pub/Platform'
 
 [assets.image.manifest.xy]
