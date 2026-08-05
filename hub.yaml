@@ -283,6 +283,7 @@ packages:
       - wrap bin
   dua:
     repo: Byron/dua-cli
+    exclude_vessel: true
     uri: download/{version}/dua-{version}-{arch}-unknown-linux-musl.tar.gz
     unpack:
       - strip 1
