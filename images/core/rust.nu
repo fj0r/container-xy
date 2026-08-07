@@ -8,7 +8,7 @@ export def main [context: record = {}] {
         workdir: /home/master
         rust: {
             channel: stable
-            frontend: sycamore
+            frontend: leptos
         }
         env: {
             RUSTUP_HOME: '/opt/rustup'
