@@ -635,6 +635,7 @@ stacks:
     logging:
       - structlog
     codec:
+      - ckdl
       - pyyaml
   js:
     dev:
@@ -704,8 +705,9 @@ stacks:
       - serde_cbor
       - schemars
       - serde_yaml
-      - toml
+      - serde-kdl2
       - kdl
+      - toml
     logging:
       - tracing
       - tracing-subscriber
