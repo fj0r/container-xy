@@ -1,6 +1,6 @@
 [assets.image]
 repo = "ghcr.lizzie.fun/orbsh"
-dest = '~/pub/Platform'
+dest = '~/pub/Assets'
 
 [assets.image.manifest.xy]
 xy = [
