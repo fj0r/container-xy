@@ -272,7 +272,7 @@ export module test {
         curl -sSL --progress-bar -X PUT -T $hook localhost:9900/box/a/b/c/d/e/f/g/h/i/j/k
     }
 
-    export def run [
+    export def exec [
         --user(-u)
         --socat
         --s3

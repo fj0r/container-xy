@@ -32,7 +32,7 @@ export def get-version [cfg]: nothing -> string {
         curl --retry 3 -fsSL $url | from json | get tag_name
     }
     trace o -p 'version' { repo: ($cfg.repo? | default {$cfg.type}), version: $ver }
-    let v = $ver | transformer run $cfg.version?
+    let v = $ver | transformer exec $cfg.version?
     open $CACHE | upsert $cfg.repo $v | to yaml | save -f $CACHE
     $v
 }

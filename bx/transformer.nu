@@ -1,4 +1,4 @@
-export def run [acts?: list]: any -> any {
+export def exec [acts?: list]: any -> any {
     let n = $in
     $acts
     | default []
