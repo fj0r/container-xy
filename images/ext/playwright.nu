@@ -11,6 +11,6 @@ export def main [context: record = {}] {
     | merge { tag: playwright }
     | build {|ctx|
         pkg py install [playwright]
-        b run ['playwright install chromium']
+        b exec ['playwright install chromium']
     }
 }

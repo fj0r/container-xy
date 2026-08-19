@@ -24,7 +24,7 @@ export def --env main [context: record = {}] {
             trace o -p setup-extensions
             let gurl = 'https://github.com/orbsh/nvim-lua.git'
             trace o -p config $gurl
-            b run [
+            b exec [
                 'cd ~/.config'
                 $'git clone --depth=3 ($gurl) nvim'
                 '/target/bin/nvim --headless "+Lazy! sync" +qa'

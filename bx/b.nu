@@ -8,18 +8,17 @@ export def copy [src dst] {
     buildah copy $env.BUILDAH_WORKING_CONTAINER $src $dst
 }
 
-export def run [cmd: list] {
+export def exec [cmd: list --with-nu] {
     trace inc-level
-    add-history $"bash -c: ($cmd)"
-    let cmd = $cmd | str join ' && ' | trace f run
-    buildah run $env.BUILDAH_WORKING_CONTAINER bash -c $cmd
-}
-
-export def exec [cmd: list] {
-    trace inc-level
-    add-history $"nu -c: ($cmd)"
-    let cmd = $cmd | str join (char newline) | trace f run-with-nu
-    buildah run $env.BUILDAH_WORKING_CONTAINER nu -c $cmd
+    if $with_nu {
+        add-history $"nu -c: ($cmd)"
+        let cmd = $cmd | str join (char newline) | trace f run-with-nu
+        buildah run $env.BUILDAH_WORKING_CONTAINER nu -c $cmd
+    } else {
+        add-history $"bash -c: ($cmd)"
+        let cmd = $cmd | str join ' && ' | trace f run
+        buildah run $env.BUILDAH_WORKING_CONTAINER bash -c $cmd
+    }
 }
 
 export def commit [image] {

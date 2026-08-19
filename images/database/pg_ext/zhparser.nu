@@ -24,7 +24,7 @@ export def main [xctx] {
             }
             | build --no-commit {|ctx1|
                 let pg_ver = $context.pg_version_major
-                b run [
+                b exec [
                     'opwd=$(pwd)'
                     'curl -sSL http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2 | tar -jxf -'
                     'cd scws-1.2.3'

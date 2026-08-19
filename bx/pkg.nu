@@ -14,13 +14,13 @@ export def install [
     add-history $"install: ($pkgs | str join ' ')"
     match $env.OS_RELEASE_ID {
         arch => {
-            b run [
+            b exec [
                 $"pacman -Sy --noconfirm ($pkgs)"
                 "rm -rf /var/cache/pacman/pkg/*"
             ]
         }
         debian => {
-            b run [
+            b exec [
                 'apt-get update'
                 $'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ($pkgs)'
                 'apt-get autoremove -y'
@@ -39,12 +39,12 @@ export def with [
     let pkgs = resolve-stack [stacks $env.OS_RELEASE_ID] $stack $pkgs | str join ' '
     match $env.OS_RELEASE_ID {
         arch => {
-            b run [
+            b exec [
                 $"pacman -Sy --noconfirm ($pkgs)"
             ]
         }
         debian => {
-            b run [
+            b exec [
                 'apt-get update'
                 $'DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ($pkgs)'
             ]
@@ -58,7 +58,7 @@ export def with [
     let r = do $act
 
     if 'rustup' in $pkgs {
-        b run [
+        b exec [
             'rustup toolchain uninstall $(rustup toolchain list)'
             'rm -rf ~/.rustup/toolchains/*'
             'rm -rf ~/.rustup/downloads/*'
@@ -69,13 +69,13 @@ export def with [
 
     match $env.OS_RELEASE_ID {
         arch => {
-            b run [
+            b exec [
                 $"pacman -Rsn --noconfirm ($pkgs)"
                 "rm -rf /var/cache/pacman/pkg/*"
             ]
         }
         debian => {
-            b run [
+            b exec [
                 $'apt-get purge -y --auto-remove ($pkgs)'
                 'apt-get clean -y'
                 'rm -rf /var/lib/apt/lists/*'
@@ -88,10 +88,10 @@ export def with [
 export def refresh [] {
     match $env.OS_RELEASE_ID {
         arch => {
-            b run ["pacman -Syu --noconfirm"]
+            b exec ["pacman -Syu --noconfirm"]
         }
         debian => {
-            b run [
+            b exec [
                 'apt-get update'
                 'apt-get upgrade -y'
             ]
@@ -117,7 +117,7 @@ export def 'py install' [
         $cmd ++= [--index-url $index_url]
     }
     $cmd ++= $pkgs
-    b run [ ($cmd | str join ' ') ]
+    b exec [ ($cmd | str join ' ') ]
 }
 
 export def 'setup py' [
@@ -147,13 +147,13 @@ export def 'js install' [
 
     match $runtime {
         node => {
-            b run [
+            b exec [
                 $'npm install --global ($pkgs | str join " ")'
                 'npm cache clean --force'
             ]
         }
         bun => {
-            b run [
+            b exec [
                 $'bun install --global --no-cache ($pkgs | str join " ")'
             ]
         }
@@ -175,7 +175,7 @@ export def 'setup js' [
         }
         bun => {
             hub install [bun]
-            b run [
+            b exec [
                 'cd /usr/local/bin'
                 'ln -s bun node'
             ]

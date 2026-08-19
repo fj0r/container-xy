@@ -31,7 +31,7 @@ export def main [context: record = {}] {
                 mkdir build/dropbear
                 curl -fsSL $url | tar -zxf - -C build/dropbear --strip-component=1
             }
-            b run [
+            b exec [
                 'cd /build/dropbear'
                 'autoconf'
                 'autoheader'
@@ -45,7 +45,7 @@ export def main [context: record = {}] {
                 cd build
                 git clone --depth=1 https://github.com/openssh/openssh-portable.git
             }
-            b run [
+            b exec [
                 'cd /build/openssh-portable'
                 'autoreconf'
                 './configure'

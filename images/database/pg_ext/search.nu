@@ -24,7 +24,7 @@ export def main [xctx] {
             }
             | build --no-commit {|ctx1|
                 let pg_ver = $context.pg_version_major
-                b run [
+                b exec [
                     $'curl -sSL https://github.com/timescale/pg_textsearch/releases/download/v($cx.version)/pg_textsearch-($cx.version).tar.gz | tar -zxf - -C . --strip-component=1'
                     'make -j$(nproc)'
                     'DESTDIR=/out make install'

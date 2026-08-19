@@ -55,7 +55,7 @@ export def main [context: record = {}] {
 
         let plugins_ins = $ctx.plugins | each {|x| $'openclaw plugins install @openclaw/($x)' }
 
-        b run [
+        b exec [
             'mkdir -p /app/data'
             'cd /app'
             # 'npm install --no-cache --omit=optional openclaw'

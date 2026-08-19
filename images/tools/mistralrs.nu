@@ -10,7 +10,7 @@ export def main [context: record = {}] {
     | build {|ctx|
         let r = { from: $'($context.image):rust' }
         | build --no-commit {|ctx|
-            b run ['cargo install mistralrs-cli']
+            b exec ['cargo install mistralrs-cli']
         }
 
         b with-mount {|new, old|

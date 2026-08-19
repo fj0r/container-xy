@@ -69,7 +69,7 @@ export def main [xctx] {
 
             rust up 'root' stable
 
-            b run [
+            b exec [
                 'cargo install cargo-get'
                 $'cargo install --locked cargo-pgrx --version ($ctx.pgrx_version)'
                 $'cargo pgrx init --pg($pg_ver)=/usr/lib/postgresql/($pg_ver)/bin/pg_config'

@@ -80,7 +80,7 @@ The `build` function accepts a record as context (passed via pipeline `$in`). Be
 The `bx` module exports the following submodules:
 
 - `build.nu` - Core build functionality
-- `b.nu` - Helper commands (`copy`, `run`, `exec`, `commit`, `with-mount`) and `conf` submodule (`env`, `expose`, `volume`, `workdir`, `entrypoint`, `cmd`, `user`)
+- `b.nu` - Helper commands (`copy`, `exec` (with `--with-nu` flag), `commit`, `with-mount`) and `conf` submodule (`env`, `expose`, `volume`, `workdir`, `entrypoint`, `cmd`, `user`)
 - `trace.nu` - Logging and tracing utilities
 - `pkg.nu` - Package management
 - `rust.nu` - Rust toolchain setup

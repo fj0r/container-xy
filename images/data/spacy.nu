@@ -20,6 +20,6 @@ export def main [context: record = {}] {
         ] {
             pkg py install [pip setuptools wheel 'spacy[transformers]']
         }
-        b run ['python -m spacy download zh_core_web_trf']
+        b exec ['python -m spacy download zh_core_web_trf']
     }
 }

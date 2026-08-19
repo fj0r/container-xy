@@ -50,7 +50,7 @@ packages:
             'cat /tmp/config.nu | save -a nushell/config.nu'
             'rm /tmp/config.nu'
         ]
-        b exec $cmd
+        b exec --with-nu $cmd
     options:
       config:
         git: https://github.com/orbsh/nushell.git
@@ -86,7 +86,7 @@ packages:
                 $'cp -r /($ctx.target)/share/steel .'
             ]
         }
-        b exec $cmd
+        b exec --with-nu $cmd
     options:
       config: |
         theme = "gruvbox"
@@ -190,7 +190,7 @@ packages:
                 'mv /tmp/top-compact.kdl zellij/layouts'
             ]
         }
-        b exec $cmd
+        b exec --with-nu $cmd
     options:
       top-compact.kdl: |
         layout {
@@ -311,7 +311,7 @@ packages:
     hooks:
       post: |
         let ctx = $env.HUBHOOK | from nuon
-        b exec [
+        b exec --with-nu [
             $'jj config set --user user.name "($ctx.author)"'
             $'jj config set --user user.email "($ctx.author)@orbit"'
         ]
@@ -483,7 +483,7 @@ packages:
             'rm -rf nvim'
             $'cp -r /($ctx.target)/etc/nvim .'
         ]
-        b exec $cmd
+        b exec --with-nu $cmd
   oras:
     repo: oras-project/oras
     uri: download/v{version}/oras_{version}_linux_{arch2}.tar.gz

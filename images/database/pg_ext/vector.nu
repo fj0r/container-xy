@@ -23,7 +23,7 @@ export def main [xctx] {
             }
             | build --no-commit {|ctx1|
                 let pg_ver = $context.pg_version_major
-                b run [
+                b exec [
                     $'curl --retry 3 -fsSL https://github.com/pgvector/pgvector/archive/refs/tags/v($version).tar.gz | tar -zxf - -C . --strip-components=1'
                     'make clean -j'
                     'make USE_PGXS=1 OPTFLAGS="" -j'

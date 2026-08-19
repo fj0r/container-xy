@@ -23,7 +23,7 @@ export def main [xctx] {
                 from: $"($context.image):($pgrx)"
             }
             | build --no-commit {|ctx1|
-                b run [
+                b exec [
                     'git clone --depth=1 https://github.com/duckdb/pg_duckdb.git'
                     'cd pg_duckdb'
                     'git submodule update --init --recursive'

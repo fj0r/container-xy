@@ -12,7 +12,7 @@ export def main [context: record = {}] {
     | build {|ctx|
         let boringtun = { from: rust }
         | build --no-commit {|ctx|
-            b run [
+            b exec [
                 'mkdir /target'
                 'cargo install --locked boringtun-cli'
                 "bin_file=$(whereis boringtun-cli | awk '{print $2}')"

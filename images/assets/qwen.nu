@@ -14,7 +14,7 @@ export def main [context: record = {}] {
         let r = $ctx
         | merge { from: $'($context.image):mistralrs' }
         | build --no-commit {|ctx|
-            b run [
+            b exec [
                 $"'\\exit' | mistralrs run -m ($ctx.model)"
             ]
         }

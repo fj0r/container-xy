@@ -19,7 +19,7 @@ export def setup [
     }
 
     let install_path = $dir | path join bin "nu"
-    b run [
+    b exec [
         $"echo '($install_path)' >> /etc/shells"
         $'usermod -s ($install_path) ($config.user)'
     ]
@@ -46,7 +46,7 @@ export def setup [
     | each {|x| $"plugin add ($dir | path join bin nu_plugin_($x))"}
     | str join '; '
 
-    b run [
+    b exec [
         $'chown ($config.user):($config.user) -R ($config.xdg_config)/nushell'
         $'sudo -u ($config.user) ($install_path) -c "($reg)"'
     ]

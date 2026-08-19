@@ -19,7 +19,7 @@ export def main [context: record = {}] {
             ]
         }
         let model = 'codefuse-ai/F2LLM-v2-0.6B'
-        b run [
+        b exec [
             $'infinity_emb v2 --model-id ($model) --preload-only'
         ]
         b with-mount {

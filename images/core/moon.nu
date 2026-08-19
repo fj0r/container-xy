@@ -10,7 +10,7 @@ export def main [context: record = {}] {
     | build {|ctx|
         b conf path [$"/home/($ctx.user)/.moon/bin:$PATH"]
         let url = 'https://cli.moonbitlang.com/install/unix.sh'
-        b run [
+        b exec [
             $"curl --retry 3 -fsSL ($url) | sudo -u ($ctx.user) bash"
         ]
     }

@@ -1,14 +1,14 @@
 use b.nu
 
 export def timezone [timezone] {
-    b run [
+    b exec [
         $'ln -sf /usr/share/zoneinfo/($timezone) /etc/localtime'
         $'echo "($timezone)" > /etc/timezone'
     ]
 }
 
 export def git [author] {
-    b run [
+    b exec [
         'git config --global pull.rebase false'
         'git config --global init.defaultBranch main'
         $'git config --global user.name "($author)"'
@@ -19,12 +19,12 @@ export def git [author] {
 export def sudo [] {
     match $env.OS_RELEASE_ID {
         arch => {
-            b run [
+            b exec [
                 `sed -i 's/# \(%.*NOPASSWD.*\)/&\n\1/' /etc/sudoers`
             ]
         }
         _ => {
-            b run [
+            b exec [
                 `sed -i 's/^.*\(%sudo.*\)ALL$/\1NOPASSWD: ALL/g' /etc/sudoers`
             ]
         }
@@ -40,7 +40,7 @@ export def master [
         arch => 'wheel'
         debian => 'sudo'
     }
-    b run [
+    b exec [
         $'useradd -mU -G ($group),root ($user)'
         $'mkdir -p ($workdir)'
         $'chown ($user):($user) -R ($workdir)'

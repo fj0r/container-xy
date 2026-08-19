@@ -12,7 +12,7 @@ export def up [
     --bin: list
 ] {
     trace inc-level
-    b run [
+    b exec [
         $"rustup default ($channel)"
         $"rustup toolchain install ($channel)"
     ]
@@ -20,7 +20,7 @@ export def up [
     hub install [mold sccache]
 
     if ($component | is-not-empty) {
-        b run [
+        b exec [
             $"rustup component add ($component | str join ' ')"
         ]
         b with-mount {
@@ -35,7 +35,7 @@ export def up [
         }
     }
     if ($target | is-not-empty) {
-        b run [
+        b exec [
             $"rustup target add ($target | str join ' ')"
         ]
     }
@@ -47,14 +47,14 @@ export def up [
             curl -fsSL $url | tar zxf - -C $dst
             chmod +x ($dst | path join cargo-binstall)
         }
-        b run [
+        b exec [
             $"cargo binstall -y ($bin | str join ' ')"
         ]
     }
 
     let cargo_home = $env.CARGO_HOME? | default $cargo_home
     if ($cargo_home | is-not-empty) {
-        b run [
+        b exec [
             $'rm -rf ($cargo_home)/registry/src/*'
             $'chown ($owner):($owner) -R ($cargo_home)'
         ]
@@ -124,7 +124,7 @@ export def prefetch [
 ] {
     trace inc-level
     # mkdir $dst
-    b run [
+    b exec [
         $"cd ($workdir)"
         $"pwd"
         $"cargo new ($proj)"
@@ -158,7 +158,7 @@ export def prefetch [
     }
 
     if $test {
-        b run [$'cat ($workdir)/($proj)/Cargo.toml']
+        b exec [$'cat ($workdir)/($proj)/Cargo.toml']
         return
     }
 
@@ -175,5 +175,5 @@ export def prefetch [
             $'chown ($owner):($owner) -R ($cargo_home)'
         ]
     }
-    b run $post
+    b exec $post
 }

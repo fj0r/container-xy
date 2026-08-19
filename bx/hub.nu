@@ -262,12 +262,19 @@ export def run-script [
     let m = "
     module b {
         use trace
-        export def exec [cmd: list] {
+        export def exec [cmd: list --with-nu] {
             trace inc-level
-            $cmd
-            | str join (char newline)
-            | trace f run-with-nu
-            | buildah run $env.BUILDAH_WORKING_CONTAINER nu -c $in
+            if $with_nu {
+                $cmd
+                | str join (char newline)
+                | trace f run-with-nu
+                | buildah run $env.BUILDAH_WORKING_CONTAINER nu -c $in
+            } else {
+                $cmd
+                | str join ' && '
+                | trace f run
+                | buildah run $env.BUILDAH_WORKING_CONTAINER bash -c $in
+            }
         }
     }
     use b
@@ -309,11 +316,18 @@ export def gen-script [
     let m = "
     module b {
         use trace
-        export def exec [cmd: list] {
-            $cmd
-            | str join (char newline)
-            | trace f run-with-nu
-            | nu -c $in
+        export def exec [cmd: list --with-nu] {
+            if $with_nu {
+                $cmd
+                | str join (char newline)
+                | trace f run-with-nu
+                | nu -c $in
+            } else {
+                $cmd
+                | str join ' && '
+                | trace f run
+                | bash -c $in
+            }
         }
     }
     use b
