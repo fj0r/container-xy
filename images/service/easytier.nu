@@ -12,7 +12,7 @@ export def main [context: record = {}] {
         pkg install [iptables iproute2]
         hub install [easytier] -c $ctx.cache?
 
-        b conf expose [11010 u11010 22020 11211 8888]
+        b conf expose [11010 u11010 u22020 11211 8888]
 
         b with-mount {
             r#'
@@ -81,6 +81,7 @@ export def main [context: record = {}] {
                         --config-server-protocol udp
                         --api-server-port 11211
                         --api-server-addr 127.0.0.1
+                        --api-host http://localhost:11211
                         --web-server-port 8888
                         --web-server-addr 127.0.0.1
                         --disable-registration
