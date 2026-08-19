@@ -59,7 +59,7 @@ export def main [context: record = {}] {
 
                     tasks spawn {
                         tag: easytier
-                        msg: $"Starting EasyTier core (server): -c ($core_config)"
+                        msg: $"Starting EasyTier core ~ role server, config: ($core_config)"
                         cmd: [
                             /usr/local/bin/easytier-core
                             -c $core_config
@@ -117,7 +117,7 @@ export def main [context: record = {}] {
 
                     tasks spawn {
                         tag: easytier
-                        msg: $"Starting EasyTier core (client) via config-server: ($config_server)"
+                        msg: $"Starting EasyTier core ~ role client, via config-server: ($config_server)"
                         cmd: [
                             /usr/local/bin/easytier-core
                             -c $core_config
@@ -127,7 +127,7 @@ export def main [context: record = {}] {
                     }
                 }
 
-                _ => { error make { msg: $"Unknown EASYTIER_ROLE: ($role) (expected server | client)" } }
+                _ => { error make { msg: $"Unknown EASYTIER_ROLE: ($role), expected server or client" } }
             }
             '#
             | str trim
