@@ -38,7 +38,7 @@ export def main [context: record = {}] {
         # hub install --user $ctx.user -A $ctx.author [ duckdb ]
 
         pkg setup py --stack [
-            web dev io cli utils logging data codec
+            web dev io cli utils logging data db codec
         ]
         pkg setup js --stack [
             dev utils

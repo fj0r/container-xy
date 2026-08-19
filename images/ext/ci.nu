@@ -18,7 +18,7 @@ export def main [context: record = {}] {
         pkg py install [
             furl markdown
             ansible kubernetes
-            psycopg[binary] kafka-python
+            kafka-python
             pymongo github3.py
         ]
         [

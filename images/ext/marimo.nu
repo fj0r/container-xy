@@ -15,7 +15,7 @@ export def main [context: record = {}] {
         }
         pkg with [ base-devel ] {
             pkg py install [
-                psycopg[binary] boto3 lancedb duckdb
+                boto3 lancedb duckdb
                 numpy scikit-learn polars[all]
                 marimo[recommended,lsp,sql] altair
             ]

@@ -22,7 +22,7 @@ export def main [context: record = {}] {
     | merge $context
     | merge { tag: py }
     | build {|ctx|
-        pkg setup py --stack [web dev io cli utils logging codec]
+        pkg setup py --stack [web dev io cli utils logging db codec]
     }
 
 
@@ -35,7 +35,7 @@ export def main [context: record = {}] {
     | merge { tag: py-data }
     | build {|ctx|
         pkg with [git gcc python3-dev] {
-            pkg py install [polars deltalake pyiceberg[rest-sigv4,pyarrow] lancedb zstandard]
+            pkg py install [polars deltalake pyiceberg[rest-sigv4,pyarrow] zstandard]
         }
     }
 

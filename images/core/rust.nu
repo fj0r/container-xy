@@ -64,7 +64,7 @@ export def main [context: record = {}] {
         rust prefetch $ctx.user $ctx.workdir 'rust-labs' --stack [
             experimental ...$ui_stack
             cli codec error meta utils regex parser collections http
-            logging data storage async concurrency web
+            logging data db async concurrency web
             ecs wasm script system
         ] --cargo-home $ctx.env.CARGO_HOME
     }

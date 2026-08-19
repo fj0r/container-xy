@@ -621,8 +621,10 @@ stacks:
       - ipython
     data:
       - polars
-      - lancedb
       - zstandard
+    db:
+      - psycopg[binary]
+      - lancedb
     utils:
       - pydantic
       - pydantic-graph
@@ -719,9 +721,12 @@ stacks:
       - linfa
       - burn
       - plotlars
-    storage:
+    db:
       - slatedb
       - fjall
+      - tokio-postgres
+      - deadpool-postgres
+      - refinery
     concurrency:
       - rayon
       - crossbeam
