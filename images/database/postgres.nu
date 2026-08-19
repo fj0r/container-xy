@@ -93,7 +93,6 @@ export def main [context: record = {}] {
             (pg_ext duckdb $xctx)
             (pg_ext vector $xctx)
             (pg_ext search $xctx)
-            (pg_ext zhparser $xctx)
         ] {
             b with-mount {|new, old|
                 let ctr = { from: $'($context.image):($ext)' } | build --no-commit {|| }

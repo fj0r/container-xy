@@ -35,8 +35,10 @@ export def main [xctx] {
                 make
                 gcc
                 g++
+                lld
                 cmake
                 clang
+                libclang-dev
                 ninja-build
                 libssl-dev
                 libcurl4-openssl-dev

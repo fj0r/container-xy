@@ -54,12 +54,12 @@ export def main [context: record = {}] {
                             listeners = ["tcp://0.0.0.0:11010", "udp://0.0.0.0:11010"]
                         '
                         $toml | str trim | lines | each {|l| $l | str trim } | str join "\n" | save $core_config
-                        print $\"📦 Generated server core config: ($core_config)\"
+                        print $"📦 Generated server core config: ($core_config)"
                     }
 
                     tasks spawn {
                         tag: easytier
-                        msg: $\"Starting EasyTier core (server): -c ($core_config)\"
+                        msg: $"Starting EasyTier core (server): -c ($core_config)"
                         cmd: [
                             /usr/local/bin/easytier-core
                             -c $core_config
@@ -104,7 +104,7 @@ export def main [context: record = {}] {
                             hostname = "($hostname)"
                         '
                         $toml | str trim | lines | each {|l| $l | str trim } | str join "\n" | save $core_config
-                        print $\"📦 Generated client bootstrap config: ($core_config)\"
+                        print $"📦 Generated client bootstrap config: ($core_config)"
                     }
 
                     # config-server is a CLI/env field (not in toml) -> route via env
@@ -117,7 +117,7 @@ export def main [context: record = {}] {
 
                     tasks spawn {
                         tag: easytier
-                        msg: $\"Starting EasyTier core (client) via config-server: ($config_server)\"
+                        msg: $"Starting EasyTier core (client) via config-server: ($config_server)"
                         cmd: [
                             /usr/local/bin/easytier-core
                             -c $core_config
@@ -127,7 +127,7 @@ export def main [context: record = {}] {
                     }
                 }
 
-                _ => error make { msg: $\"Unknown EASYTIER_ROLE: ($role) (expected server | client)\" }
+                _ => { error make { msg: $"Unknown EASYTIER_ROLE: ($role) (expected server | client)" } }
             }
             '#
             | str trim
