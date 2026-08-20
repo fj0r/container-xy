@@ -356,6 +356,13 @@ packages:
     unpack:
       - strip 1
       - wrap bin
+  headscale:
+    repo: juanfont/headscale
+    uri: download/{version}/headscale_{version}_linux_{arch2}
+    unpack:
+      - mv headscale_{version}_linux_{arch2} headscale
+      - chmodx headscale
+      - wrap bin
   zot:
     repo: project-zot/zot
     exclude_vessel: true

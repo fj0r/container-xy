@@ -1,10 +1,10 @@
 name: branch_boringtun
-'on':
+on:
   push:
     branches:
-      - boringtun
+    - boringtun
     tags:
-      - v*.*.*
+    - v*.*.*
   workflow_dispatch: null
 env:
   REGISTRY: ghcr.io
@@ -18,43 +18,43 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          submodules: 'true'
-      - name: Log into registry ${{ env.REGISTRY }}
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ env.USERNAME }}
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: "true"
+    - name: Log into registry ${{ env.REGISTRY }}
+      if: github.event_name != 'pull_request'
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ env.USERNAME }}
+        password: ${{ secrets.GHCR_TOKEN }}
+    - name: Extract Docker metadata
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+    - name: Setup Nushell
+      uses: hustcer/setup-nu@v3
+      with:
+        version: 0.115.0
+    - name: build boringtun
+      shell: buildah unshare nu {0}
+      run: |-
+        overlay use ${{ github.workspace }}/images/assets/boringtun.nu as build
+        build {
+          author: ${{ env.USERNAME }}
           password: ${{ secrets.GHCR_TOKEN }}
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      - name: Setup Nushell
-        uses: hustcer/setup-nu@v3
-        with:
-          version: 0.115.0
-      - name: build boringtun
-        shell: buildah unshare nu {0}
-        run: |-
-          overlay use ${{ github.workspace }}/images/assets/boringtun.nu as build
-          build {
-            author: ${{ env.USERNAME }}
-            password: ${{ secrets.GHCR_TOKEN }}
-            image: ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}
-            tag: boringtun
-          }
-      - name: Delete untagged ghcr
-        uses: Chizkiyahu/delete-untagged-ghcr-action@v3
-        with:
-          token: ${{ secrets.GHCR_TOKEN }}
-          repository: ${{ github.repository }}
-          repository_owner: ${{ github.repository_owner }}
-          package_name: ''
-          untagged_only: true
-          except_untagged_multiplatform: false
-          owner_type: user
+          image: ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}
+          tag: boringtun
+        }
+    - name: Delete untagged ghcr
+      uses: Chizkiyahu/delete-untagged-ghcr-action@v3
+      with:
+        token: ${{ secrets.GHCR_TOKEN }}
+        repository: ${{ github.repository }}
+        repository_owner: ${{ github.repository_owner }}
+        package_name: ""
+        untagged_only: true
+        except_untagged_multiplatform: false
+        owner_type: user

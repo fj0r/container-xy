@@ -1,8 +1,8 @@
-name: branch_nixos-kexec-installer
+name: branch_headscale
 on:
   push:
     branches:
-    - nixos-kexec-installer
+    - headscale
     tags:
     - v*.*.*
   workflow_dispatch: null
@@ -38,15 +38,15 @@ jobs:
       uses: hustcer/setup-nu@v3
       with:
         version: 0.115.0
-    - name: build nixos-kexec-installer
+    - name: build headscale
       shell: buildah unshare nu {0}
       run: |-
-        overlay use ${{ github.workspace }}/images/assets/nixos-kexec-installer.nu as build
+        overlay use ${{ github.workspace }}/images/service/headscale.nu as build
         build {
           author: ${{ env.USERNAME }}
           password: ${{ secrets.GHCR_TOKEN }}
           image: ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}
-          tag: nixos-kexec-installer
+          tag: headscale
         }
     - name: Delete untagged ghcr
       uses: Chizkiyahu/delete-untagged-ghcr-action@v3
