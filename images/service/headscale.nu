@@ -12,7 +12,7 @@ export def main [context: record = {}] {
         pkg install [ca-certificates]
         hub install [headscale] -c $ctx.cache?
 
-        b conf expose [8080]
+        b conf expose [8080 u3478]
 
         b with-mount {
             r#'
@@ -58,6 +58,25 @@ export def main [context: record = {}] {
                     magic_dns: false
                     dns:
                       base_domain: example.com
+
+                    derp:
+                      server:
+                        # Embedded DERP relay. Protocol lives on the main HTTP
+                        # router under /derp and uses cfg.server_url, so it is
+                        # reverse-proxied by the gateway along with the control
+                        # plane — no extra HTTP port, no self-managed TLS.
+                        enabled: true
+                        region_id: 999
+                        region_code: "cn"
+                        region_name: "Headscale cn DERP"
+                        private_key_path: ($data)/derp_server_private.key
+                        verify_clients: true
+                        stun:
+                          enabled: true
+                          addr: "0.0.0.0:3478"
+                      # Omit derp.urls / auto_update: with the embedded region
+                      # auto-added, the map is non-empty; clients relay only
+                      # through our own region (no public Tailscale DERP map).
 
                     database:
                       type: sqlite
