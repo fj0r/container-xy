@@ -30,7 +30,7 @@ export def main [xctx] {
                     'pgrx_cur=$(cargo pgrx --version 2>/dev/null | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" | head -1)'
                     'if [ "$pgrx_cur" != "$pgrx_need" ]; then cargo install --locked cargo-pgrx --version "$pgrx_need"; fi'
                     'cd pg_search'
-                    $'cargo pgrx package --package pg_search --release --pg-config /usr/lib/postgresql/($pg_ver)/bin/pg_config'
+                    $'cargo pgrx package --package pg_search --pg-config /usr/lib/postgresql/($pg_ver)/bin/pg_config'
                     'mkdir -p /out/usr'
                     'cp -r target/release/pg_search-pg*/usr/* /out/usr/'
                 ]

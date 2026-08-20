@@ -53,6 +53,7 @@ export def main [xctx] {
                 python3-dev
                 libkrb5-dev
 
+                libopenblas-dev
                 libreadline-dev zlib1g-dev flex bison libxml2-dev libxslt-dev
                 libssl-dev libxml2-utils xsltproc
                 pkg-config libc++-dev libc++abi-dev libglib2.0-dev
