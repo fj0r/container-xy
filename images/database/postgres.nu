@@ -50,6 +50,7 @@ export def main [context: record = {}] {
         | each {|x|
             {version: $ctx.pg_version_major} | format pattern $x
         }
+        | append ['libopenblas0']
         pkg install $pg_pkgs --stack [
             base net ssh diag network-tools
             file archive s3 json db

@@ -59,7 +59,16 @@ def pg-setup-conf [] {
         "pg_stat_statements.track = all"
     ]
 
-    let seccomp = cat /proc/self/status | grep Seccomp | from yaml | get Seccomp
+    let seccomp = (
+        cat /proc/self/status
+        | lines
+        | where {|l| ($l | str starts-with 'Seccomp:') }
+        | first
+        | split row (char tab)
+        | get 1
+        | str trim
+        | into int
+    )
     if ($seccomp == 0) {
         $conf_lines ++= ['io_method = io_uring']
     } else {
