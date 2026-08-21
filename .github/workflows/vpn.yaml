@@ -96,14 +96,3 @@ jobs:
             image: ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}
             tag: ''
           }
-
-      - name: build easytier
-        shell: buildah unshare nu {0}
-        run: |-
-          overlay use ${{ github.workspace }}/images/service/easytier.nu as build
-          build {
-            author: ${{ env.USERNAME }}
-            password: ${{ secrets.GHCR_TOKEN }}
-            image: ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}
-            tag: easytier
-          }

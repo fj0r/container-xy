@@ -350,14 +350,9 @@ packages:
       - mv warpgate-{version}-{arch}-linux warpgate
       - chmodx warpgate
       - wrap bin
-  easytier:
-    repo: EasyTier/EasyTier
-    uri: download/{version}/easytier-linux-{arch}-{version}.zip
-    unpack:
-      - strip 1
-      - wrap bin
   headscale:
     repo: juanfont/headscale
+    exclude_vessel: true
     uri: download/{version}/headscale_{version}_linux_{arch2}
     unpack:
       - mv headscale_{version}_linux_{arch2} headscale
