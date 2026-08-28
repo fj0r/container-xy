@@ -37,7 +37,7 @@ jobs:
     - name: Setup Nushell
       uses: hustcer/setup-nu@v3
       with:
-        version: 0.111.0
+        version: 0.115.1
     - name: build ci
       shell: buildah unshare nu {0}
       run: |-
