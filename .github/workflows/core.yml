@@ -47,7 +47,7 @@ jobs:
       - name: Setup Nushell
         uses: hustcer/setup-nu@v3
         with:
-          version: '0.115.0'
+          version: '0.115.1'
 
       - uses: dorny/paths-filter@v3
         id: changes

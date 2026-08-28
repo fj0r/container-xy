@@ -51,7 +51,7 @@ jobs:
       - name: Setup Nushell
         uses: hustcer/setup-nu@v3
         with:
-          version: '0.115.0'
+          version: '0.115.1'
 
       - name: build boringtun
         shell: buildah unshare nu {0}
@@ -95,4 +95,15 @@ jobs:
             password: ${{ secrets.GHCR_TOKEN }}
             image: ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}
             tag: ''
+          }
+
+      - name: build headscale
+        shell: buildah unshare nu {0}
+        run: |-
+          overlay use ${{ github.workspace }}/images/service/headscale.nu as build
+          build {
+            author: ${{ env.USERNAME }}
+            password: ${{ secrets.GHCR_TOKEN }}
+            image: ${{ env.REGISTRY }}/${{ env.USERNAME }}/${{ env.IMAGE_NAME }}
+            tag: headscale
           }
