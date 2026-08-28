@@ -353,7 +353,7 @@ packages:
   headscale:
     repo: juanfont/headscale
     exclude_vessel: true
-    uri: download/{version}/headscale_{version}_linux_{arch2}
+    uri: download/{version}/headscale_v{version}_linux_{arch2}
     unpack:
       - mv headscale_{version}_linux_{arch2} headscale
       - chmodx headscale
