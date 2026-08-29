@@ -34,8 +34,8 @@ xy = [
     # "18gis",
 ]
 
-[assets.image.manifest.llm]
-xy = ["ollama"]
+# [assets.image.manifest.llm]
+# xy = ["ollama"]
 
 [assets.image.manifest.agents]
 xy = ["hermes"]
@@ -50,7 +50,7 @@ xy = ["hermes"]
 #0x = ["java17"]
 
 [assets.image.manifest.vpn]
-xy = ["wireguard", "warpgate"]
+xy = ["wireguard", "warpgate", "headscale"]
 
 #[manifest.pyflink]
 #0x = ["pyflink"]
