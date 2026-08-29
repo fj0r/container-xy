@@ -721,10 +721,11 @@ stacks:
       - tracing-wasm
     data:
       - polars
+      - plotlars
       - nalgebra
       - linfa
       - burn
-      - plotlars
+      - ggplot-rs
     db:
       - slatedb
       - fjall
