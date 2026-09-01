@@ -49,7 +49,7 @@ export def main [context: record = {}] {
 
         b with-mount {
             cd srv
-            mkdir bin box ferron
+            mkdir bin box ferron data hooks meta
         }
 
         b copy images/service/ferron /srv/ferron
