@@ -44,16 +44,9 @@ export def main [context: record = {}] {
             #                         (empty = omit ephemeral nodes)
             # ------------------------------------------------------------------
 
-            let data = ($env.HS_DATA? | default "/data")
-            let server_url = $env.HS_SERVER_URL?
-            if ($server_url | is-empty) {
-                error make { msg: "HS_SERVER_URL is required, e.g. https://hs.example.com" }
-            }
-
-            mkdir $data
-            let cfg = ($data | path join config.yaml)
-
-            if not ($cfg | path exists) {
+            # Build the full config record from HS_* env. Pure: env in, record
+            # out, no I/O.
+            def build-config [server_url: string, data: string] {
                 let magic_dns = (($env.HS_MAGIC_DNS? | default "false") == "true")
                 let base_domain = ($env.HS_DNS_BASE_DOMAIN? | default "example.com")
                 let nameservers = ($env.HS_DNS_NAMESERVERS?
@@ -131,7 +124,6 @@ export def main [context: record = {}] {
                     dns: $dns
                 }
 
-
                 let log_level = ($env.HS_LOG_LEVEL?)
                 if ($log_level | is-not-empty) {
                     $config = ($config | insert log { level: $log_level })
@@ -144,10 +136,24 @@ export def main [context: record = {}] {
                     })
                 }
 
-                $config | to yaml | save $cfg
-                print $"Generated headscale config: ($cfg)"
-                print $"server_url = ($server_url)"
+                $config
             }
+
+            let data = ($env.HS_DATA? | default "/data")
+            let server_url = $env.HS_SERVER_URL?
+            if ($server_url | is-empty) {
+                error make { msg: "HS_SERVER_URL is required, e.g. https://hs.example.com" }
+            }
+
+            mkdir $data
+            let cfg = ($data | path join config.yaml)
+
+            # regenerate on every boot: config is fully derived from HS_*
+            # env (single source of truth); state files (keys, sqlite db)
+            # live alongside and are never touched
+            build-config $server_url $data | to yaml | save -f $cfg
+            print $"Generated headscale config: ($cfg)"
+            print $"server_url = ($server_url)"
 
             tasks spawn {
                 tag: headscale
