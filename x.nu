@@ -234,6 +234,7 @@ export module test {
         | get stem
     }
 
+    const TK = '8kYGr2PJ9NYk4hhLJwtI5MpQ'
     export def box [
         config:string@cmpl-ferron
         --ssh(-s)
@@ -247,6 +248,7 @@ export module test {
             -v ($CWD)/images/service/ferron:/srv/ferron
             -v ($CWD)/entrypoint/libs:/entrypoint/libs
             -e CONFIGFILE=/srv/ferron/($config).conf
+            -e BOX_META_TOKEN=($TK)
             -p 9900:8080
         ]
         if $ssh {
@@ -266,7 +268,7 @@ export module test {
         payload: path = scripts/hook_x.nu
         --path: string = ''
     ] {
-        let tk = http get -H {box-token: $env.BOX_META_TOKEN} http://localhost:9900/acl.yml
+        let tk = http get -H {box-token: $TK} http://localhost:9900/acl.yml
         | transpose k v
         | reduce -f {} {|i,a| $a | upsert $i.v $i.k }
 

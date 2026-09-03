@@ -77,7 +77,7 @@ def ensure-bootstrap [] {
     # acl.yml: token → role 表
     let acl = acl-file
     if not ($acl | path exists) {
-        let mt = random chars --length 24
+        let mt = $env.BOX_META_TOKEN? | default (random chars --length 24)
         {
           $mt: meta
           (random chars --length 24): hook
