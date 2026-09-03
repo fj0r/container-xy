@@ -28,14 +28,15 @@ export def main [context: record = {}] {
             #                          at, e.g. https://hs.example.com (required)
             # HS_DATA              -> directory for config.yaml + state
             #                          (default /data)
-            # HS_MAGIC_DNS         -> "true" enables MagicDNS (default false)
+            # HS_MAGIC_DNS         -> "false" disables MagicDNS (default true)
             # HS_DNS_BASE_DOMAIN   -> dns.base_domain (default example.com)
             # HS_DNS_NAMESERVERS   -> comma-separated global nameservers
             #                          (empty = omit global resolvers)
             # HS_PREFIX_V4/V6      -> prefixes.v4 / prefixes.v6
             # HS_PREFIX_ALLOCATION -> prefixes.allocation (empty = omit)
-            # HS_DERP_REGION_CODE  -> embedded DERP region_code (default cn)
-            # HS_DERP_REGION_NAME  -> embedded DERP region_name
+            # HS_DERP_REGION_CODE  -> embedded DERP region_code (default self)
+            # HS_DERP_REGION_NAME  -> embedded DERP region_name (default Self-hosted DERP)
+# HS_DERP_VERIFY_CLIENTS -> "false" allows unregistered clients to relay
             # HS_STUN_PORT         -> embedded DERP STUN listen port
             #                          (default 3478)
             # HS_LOG_LEVEL         -> log.level (empty = omit)
@@ -47,7 +48,7 @@ export def main [context: record = {}] {
             # Build the full config record from HS_* env. Pure: env in, record
             # out, no I/O.
             def build-config [server_url: string, data: string] {
-                let magic_dns = (($env.HS_MAGIC_DNS? | default "false") == "true")
+                let magic_dns = (($env.HS_MAGIC_DNS? | default "true") != "false")
                 let base_domain = ($env.HS_DNS_BASE_DOMAIN? | default "example.com")
                 let nameservers = ($env.HS_DNS_NAMESERVERS?
                     | default ""
@@ -106,10 +107,10 @@ export def main [context: record = {}] {
                         server: {
                             enabled: true
                             region_id: 999
-                            region_code: ($env.HS_DERP_REGION_CODE? | default "cn")
-                            region_name: ($env.HS_DERP_REGION_NAME? | default "Headscale cn DERP")
+                            region_code: ($env.HS_DERP_REGION_CODE? | default "self")
+                            region_name: ($env.HS_DERP_REGION_NAME? | default "Self-hosted DERP")
                             private_key_path: $"($data)/derp_server_private.key"
-                            verify_clients: true
+                            verify_clients: (($env.HS_DERP_VERIFY_CLIENTS? | default "true") != "false")
                             stun_listen_addr: $"0.0.0.0:($env.HS_STUN_PORT? | default 3478)"
                         }
                     }
