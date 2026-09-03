@@ -266,10 +266,18 @@ export module test {
         payload: path = scripts/hook_x.nu
         --path: string = ''
     ] {
-        curl -sSL --progress-bar -X PUT -T $hook $"localhost:9900/box/__hooks__/($path)($payload)"
-        curl -sSL --progress-bar -X PUT -T $payload $"localhost:9900/box/($path)($payload)"
-        curl -sSL --progress-bar -X PUT -T $hook $"localhost:9900/box/__hooks__/a/b/c/__"
-        curl -sSL --progress-bar -X PUT -T $hook localhost:9900/box/a/b/c/d/e/f/g/h/i/j/k
+        let tk = http get -H {box-token: $env.BOX_META_TOKEN} http://localhost:9900/acl.yml
+        | transpose k v
+        | reduce -f {} {|i,a| $a | upsert $i.v $i.k }
+
+        for i in [
+            [$tk.hook $"($path)($payload)"]
+            [$tk.upload $"($path)($payload)"]
+            [$tk.hook a/b/c/__]
+            [$tk.upload a/b/c/d/e/f/g/h/i/j/k]
+        ] {
+            curl -sSL --progress-bar -X PUT -H $'Box-Token: ($i.0)' -T $hook $"localhost:9900/($i.1)"
+        }
     }
 
     export def exec [
@@ -393,5 +401,5 @@ export module test {
      }
 
 }
-export use test  
+export use test
 

@@ -77,20 +77,21 @@ def ensure-bootstrap [] {
     # acl.yml: token → role 表
     let acl = acl-file
     if not ($acl | path exists) {
+        let mt = random chars --length 24
         {
-          (random chars --length 24): meta
+          $mt: meta
           (random chars --length 24): hook
           (random chars --length 24): upload
         }
         | to yaml
         | save -f $acl
+        print -e $"(char nl)meta token: ($mt)"
     }
     # origin.yml: rel → 回源 urls 表 (缺失时生成空表)
     let origin = origin-file
     if not ($origin | path exists) {
         {} | to yaml | save -f $origin
     }
-    print -e $"(char nl)meta ready: acl.yml + origin.yml at ($root)"
 }
 
 # ── GET: 读 + 列目录 (无目录内过滤; 无需 token, 仅目录不同) ─
