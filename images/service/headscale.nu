@@ -68,6 +68,10 @@ export def main [context: record = {}] {
                 }
                 if ($nameservers | is-not-empty) {
                     $dns = ($dns | insert nameservers { global: $nameservers })
+                } else {
+                    # 0.29: override_local_dns defaults to true and then
+                    # requires nameservers.global — opt out instead
+                    $dns = ($dns | insert override_local_dns false)
                 }
 
                 # null allocation would serialize as `allocation: null`,
@@ -113,10 +117,7 @@ export def main [context: record = {}] {
                             region_name: ($env.HS_DERP_REGION_NAME? | default "Headscale cn DERP")
                             private_key_path: $"($data)/derp_server_private.key"
                             verify_clients: true
-                            stun: {
-                                enabled: true
-                                addr: $"0.0.0.0:($env.HS_STUN_PORT? | default 3478)"
-                            }
+                            stun_listen_addr: $"0.0.0.0:($env.HS_STUN_PORT? | default 3478)"
                         }
                     }
 
