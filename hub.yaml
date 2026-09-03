@@ -628,6 +628,7 @@ stacks:
       - zstandard
     db:
       - psycopg[binary]
+      - slatedb
       - lancedb
     utils:
       - pydantic
