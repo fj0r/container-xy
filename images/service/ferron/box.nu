@@ -165,7 +165,7 @@ def upload [] {
     $n | save -f $dest
 
     let event = {
-        event: "file_uploaded",
+        event: "uploaded",
         host: $env.HTTP_HOST
         binary: (($n | describe -d).type == 'binary')
         size: (if (($n | describe -d).type == 'binary') { $n | bytes length } else { $n | str length })
@@ -201,7 +201,7 @@ def run-hook-if-any [event] {
     let workdir = mktemp -d
     cd $workdir
     let script = [$workdir run.nu] | path join
-    $"(open -r $hook_path)\n\nexport def main [] { let o = $in | from json; file_uploaded $o }" | save -f $script
+    $"(open -r $hook_path)\n\nexport def main [] { let o = $in | from json; uploaded $o }" | save -f $script
     $event
     | insert location {|e| (rel) }
     | to json -r
