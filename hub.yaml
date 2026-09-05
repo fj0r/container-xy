@@ -642,7 +642,7 @@ stacks:
     logging:
       - structlog
     codec:
-      - ckdl
+      - kdl-py
       - pyyaml
   js:
     dev:
