@@ -27,7 +27,7 @@ Hooks are standard Nushell scripts. The gateway wraps them in a `main` function 
 The gateway receives the raw binary stream via `$in`. Instead of saving a temporary archive, it pipes the network stream directly to the extractor for zero-latency unpacking:
 
 ```nushell
-def file_uploaded [o] {
+def uploaded [o] {
     # $in is the raw network byte stream
     let dest = $o.location | path parse | get stem
 
